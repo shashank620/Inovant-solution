@@ -1,0 +1,26 @@
+<div class="login-container">
+  <div class="login-box">
+    <img src="assets/logo.png" alt="Kland Logo" class="logo" />
+    <h6 class="mb-4">ENTER YOUR EMAIL TO CONTINUE</h6>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <input type="email" placeholder="Email" formControlName="email" />
+      <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        Valid email is required.
+      </div>
+
+      <div class="password-wrapper">
+        <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password" />
+        <i (click)="togglePasswordVisibility()" class="toggle-password fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+      </div>
+      <div class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        Password is required.
+      </div>
+
+      <div class="forgot-password">Forgot password?</div>
+      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+    </form>
+    <p class="create-account">
+      Don't have an account? <a routerLink="/">Create Account</a>
+    </p>
+  </div>
+</div>

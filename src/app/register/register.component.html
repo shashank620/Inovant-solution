@@ -1,0 +1,189 @@
+<div class="account-header text-white pb-5">
+    <div class="container position-relative">
+        <div class="d-flex justify-content-between align-items-center pt-4 px-3">
+            <img src="assets/logo.png" alt="Logo" height="50" />
+            <div class="d-flex align-items-center gap-3">
+                <!-- <span class="fw-bold">.........</span> -->
+                <i class="bi bi-list fs-3"></i>
+            </div>
+        </div>
+
+        <div class="text-center my-5">
+            <h1 class="fw-bold text-shadow">MY ACCOUNT</h1>
+            <p class="lead fw-bold">Manage Your Fun: View Tickets, Book Zones, and Track Your Adventure!</p>
+        </div>
+
+        <div class="bg-white rounded shadow p-3 d-flex align-items-center gap-3 w-85 mx-auto"
+             style="transform: translateY(50%); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);">
+            <div class="rounded-circle d-flex justify-content-center align-items-center bg-light border"
+                 style="width: 80px; height: 80px; border: 3px solid #ccc; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                <i class="fas fa-user fs-2 text-secondary"></i>
+            </div>
+            <div>
+                <h5 class="text-muted mb-1 fw-bold">{{ userData?.firstName || 'User' }}</h5>
+                <div class="text-muted" *ngIf="userData?.phone">+{{userData?.phoneCode }} {{userData?.phone}}</div>
+                <div class="text-muted">{{ userData?.email || 'user@example.com' }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action" [class.active]="activeMenuItem === 'edit'"
+                    (click)="onMenuClick($event, 'edit')"><i class="fa-solid fa-user"></i><span class="p-2">Edit Profile</span></a>
+                <a href="#" class="list-group-item list-group-item-action" [class.active]="activeMenuItem === 'faqs'"
+                    (click)="onMenuClick($event, 'faqs')"><i class="fa-solid fa-circle-question"></i><span class="p-2">FAQS</span></a>
+                <a href="#" class="list-group-item list-group-item-action" [class.active]="activeMenuItem === 'contact'"
+                    (click)="onMenuClick($event, 'contact')"><i class="fa-solid fa-headset"></i><span class="p-2">Contact Us</span></a>
+                <a href="#" class="list-group-item list-group-item-action" [class.active]="activeMenuItem === 'delete'"
+                    (click)="onMenuClick($event, 'delete')"><i class="fa-solid fa-user-xmark"></i><span class="p-2">Delete Account</span></a>
+                <a href="#" class="list-group-item list-group-item-action text-danger"
+                    [class.active]="activeMenuItem === 'logout'" (click)="onMenuClick($event, 'logout')">
+                    <i class="bi bi-box-arrow-left me-2"></i> <i class="fa-solid fa-right-from-bracket"></i><span class="p-2">Logout</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <h4 class="mb-4 fw-bold">PERSONAL INFORMATION</h4>
+
+            <div class="text-center mb-3">
+                <div class="rounded-circle d-inline-flex justify-content-center align-items-center bg-light border"
+                     style="width: 80px; height: 80px; border: 3px solid #ccc; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                    <i class="fas fa-user fs-2 text-secondary"></i>
+                </div>
+                <h5 class="mt-2">{{ userData?.firstName || 'User' }}</h5>
+                <p class="text-muted">{{ userData?.email || 'user@example.com' }}</p>
+            </div>
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                            placeholder=""
+                            [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+                            First name is required
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder=""
+                            [class.is-invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+                            Last name is required
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" formControlName="email" placeholder=""
+                            [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                            <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</div>
+                            <div *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="countryCode" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="countryCode" formControlName="countryCode"
+                            placeholder=""
+                            [class.is-invalid]="registerForm.get('countryCode')?.invalid && registerForm.get('countryCode')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('countryCode')?.invalid && registerForm.get('countryCode')?.touched">
+                            Country code is required
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">&nbsp;</label>
+                        <input type="text" class="form-control mt-1" id="phone" formControlName="phone" placeholder=""
+                            [class.is-invalid]="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+                            Phone number is required
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="oldPassword" class="form-label">Old Password</label>
+                        <input type="password" class="form-control" id="oldPassword" formControlName="oldPassword"
+                            placeholder="Enter your current password"
+                            [class.is-invalid]="registerForm.get('oldPassword')?.invalid && registerForm.get('oldPassword')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('oldPassword')?.invalid && registerForm.get('oldPassword')?.touched">
+                            Old password is required
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" formControlName="newPassword"
+                            placeholder="Enter your new password"
+                            [class.is-invalid]="registerForm.get('newPassword')?.invalid && registerForm.get('newPassword')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('newPassword')?.invalid && registerForm.get('newPassword')?.touched">
+                            New password is required
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmPassword"
+                            formControlName="confirmPassword" placeholder="Confirm your new password"
+                            [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                            Please confirm your password
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn btn-success w-100"
+                            [disabled]="registerForm.invalid">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-teal text-white pt-4 pb-2 mt-5">
+    <div class="container text-center">
+        <h5 class="fw-bold mb-3">Quick links</h5>
+        <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+            <a href="#" class="footer-link">Press</a>
+            <a href="#" class="footer-link">FAQs</a>
+            <a href="#" class="footer-link">Contact us</a>
+            <a href="#" class="footer-link">About us</a>
+            <a href="#" class="footer-link">Join the team</a>
+            <a href="#" class="footer-link">Terms & conditions</a>
+        </div>
+
+        <hr class="bg-light">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 px-3">
+            <div class="text-start small">PRIVACY POLICY<br>Copyright © 2024 K-Land.</div>
+
+            <div class="text-center">
+                <span class="d-block">FOLLOW US</span>
+                <a href="#" class="text-white fs-5">
+                    <i class="bi bi-instagram"></i>
+                </a>
+            </div>
+
+            <div class="text-end">
+                <span class="small d-block">PRESENTED BY</span>
+                <img src="assets/logo.png" alt="K-Land Logo" height="30">
+            </div>
+        </div>
+    </div>
+</footer>
